@@ -1,52 +1,10 @@
-name: Build Dj Sunil Sonu APK
-
-on:
-  push:
-    branches: [ "main" ]
-  workflow_dispatch:
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Rename App to Dj Sunil Sonu
+      - name: Fix Package Name and Rename App
         run: |
-          # strings.xml aur sabhi XML files mein Convx ko Dj Sunil Sonu se badalna
-          find app/src/main/res -type f -name "*.xml" -exec sed -i 's/Convx/Dj Sunil Sonu/g' {} +
+          # 1. Galti se badle gaye package/namespace 'com.Dj Sunil Sonu' ko wapas 'com.convx' karein
+          find . -type f \( -name "*.kts" -o -name "*.gradle" -o -name "*.kt" -o -name "*.xml" -o -name "*.json" \) -exec sed -i 's/com\.Dj Sunil Sonu/com.convx/gI' {} +
+
+          # 2. Sirf App ke Display Name ko 'Dj Sunil Sonu' karein
+          find app/src/main/res -type f -name "strings.xml" -exec sed -i 's/>Convx</>Dj Sunil Sonu</g' {} +
           sed -i 's/<string name="app_name">[^<]*<\/string>/<string name="app_name">Dj Sunil Sonu<\/string>/g' app/src/main/res/values/strings.xml || true
-          
-          # AndroidManifest.xml mein app label badalna
-          if [ -f "app/src/main/AndroidManifest.xml" ]; then
-            sed -i 's/android:label="Convx"/android:label="Dj Sunil Sonu"/g' app/src/main/AndroidManifest.xml
-          fi
-          
-          # Gradle files aur Kotlin strings mein "Convx" ko "Dj Sunil Sonu" se badalna
-          find . -type f \( -name "*.gradle" -o -name "*.kts" -o -name "*.kt" \) -exec sed -i 's/"Convx"/"Dj Sunil Sonu"/g' {} +
-
-      - name: Set up JDK 17 & 21
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: |
-            17
-            21
-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
-
-      - name: Make gradlew executable
-        run: chmod +x gradlew
-
-      - name: Build Debug APK
-        run: ./gradlew assembleDebug --stacktrace
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: Dj-Sunil-Sonu-APK
-          path: app/build/outputs/apk/**/*.apk
+          sed -i 's/android:label="Convx"/android:label="Dj Sunil Sonu"/g' app/src/main/AndroidManifest.xml || true
           
