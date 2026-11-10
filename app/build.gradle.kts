@@ -28,7 +28,7 @@ plugins {
 }
 
 android {
-    namespace = "com.Dj Sunil Sonu.music"
+    namespace = "com.convx.music"
     compileSdk = 37
     ndkVersion = "27.0.12077973"
 
