@@ -28,18 +28,18 @@ plugins {
 }
 
 android {
-    namespace = "com.convx.music"
+    namespace = "com.Dj Sunil Sonu.music"
     compileSdk = 37
     ndkVersion = "27.0.12077973"
 
     defaultConfig {
-        applicationId = "com.convx.music"
+        applicationId = "com.Dj Sunil Sonu.music"
         minSdk = 26
         targetSdk = 36
         versionCode = appVersionCode
         versionName = appVersionName
 
-        testInstrumentationRunner = providers.gradleProperty("convxTestRunner")
+        testInstrumentationRunner = providers.gradleProperty("DjSunilSonuTestRunner")
             .orElse("androidx.test.runner.AndroidJUnitRunner").get()
         vectorDrawables.useSupportLibrary = true
 
